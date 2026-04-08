@@ -111,6 +111,7 @@ public class TudenxLabApplication {
         System.out.println("RESULTS FOR PATIENT: " + P.GETNAME() + " (ID: " + P.GETPATIENTID() + ")");
 
         Map<String, List<String>> GROUPEDRESULTS = new HashMap<>();
+        double totalCost = 0.0;
 
         for(P_LABTESTniRey Test : P.GETTESTS()){
             String Category;
@@ -127,12 +128,16 @@ public class TudenxLabApplication {
 
             GROUPEDRESULTS.putIfAbsent(Category, new ArrayList<>());
 
+            double cost = GETTESTCOST(Test.TestName);
+            totalCost += cost;
+
             GROUPEDRESULTS.get(Category).add( 
                 Test.TestName + " -> " + Test.EVALUATERESULT() +
                 " | " + Test.InputValue + " " + Test.Unit +
                 (Test.CONVERTTOSI().isEmpty() ? "" : " | " + Test.CONVERTTOSI()) +
                 " | Taken: " + Test.GETTAKENAT().format(formatter) +
-                " | Result Ready: " + ResultAt.format(formatter)
+                " | Result Ready: " + ResultAt.format(formatter) +
+                " | Cost: PhP " + String.format("%.2f", cost)
             );
         }
 
@@ -145,6 +150,73 @@ public class TudenxLabApplication {
             }
         }
         System.out.println("============================================================================================================");
+        System.out.println("TOTAL COST: PhP " + String.format("%.2f", totalCost));
+        System.out.println("============================================================================================================");
+    }
+
+    private static double GETTESTCOST(String testName){
+
+        if(testName.equalsIgnoreCase("Urinalysis - Protein")) 
+            return 200;  
+        else if(testName.equalsIgnoreCase("Fat Test")) 
+            return 600;        
+        else if(testName.equalsIgnoreCase("Pregnancy Test")) 
+            return 250;   
+        else if(testName.equalsIgnoreCase("Urinalysis - Blood")) 
+            return 200;
+
+        else if(testName.equalsIgnoreCase("Urine Culture")) 
+            return 900;   
+        else if(testName.equalsIgnoreCase("Sputum Culture")) 
+            return 1000;  
+        else if(testName.equalsIgnoreCase("Throat Swab Culture")) 
+            return 950;
+        else if(testName.equalsIgnoreCase("Wound Culture")) 
+            return 1150;   
+
+        else if(testName.equalsIgnoreCase("COVID-19 RT-PCR")) 
+            return 2500;  
+        else if(testName.equalsIgnoreCase("HIV Viral Load")) 
+            return 6000;   
+        else if(testName.equalsIgnoreCase("Hepatitis B DNA")) 
+            return 5000;  
+        else if(testName.equalsIgnoreCase("HPV DNA")) 
+            return 4500;         
+
+        else if(testName.equalsIgnoreCase("FBS Test")) 
+            return 180;        
+        else if(testName.equalsIgnoreCase("RBS Test")) 
+            return 180;
+        else if(testName.equalsIgnoreCase("Total Cholesterol")) 
+            return 300; 
+        else if(testName.equalsIgnoreCase("HDL Test")) 
+            return 350;          
+        else if(testName.equalsIgnoreCase("LDL Test")) 
+            return 350;
+        else if(testName.equalsIgnoreCase("Triglycerides Test")) 
+            return 300;
+        else if(testName.equalsIgnoreCase("Creatinine Test")) 
+            return 200;   
+        else if(testName.equalsIgnoreCase("Uric Acid Test")) 
+            return 200;
+        else if(testName.equalsIgnoreCase("BUN Test")) 
+            return 200;
+        else if(testName.equalsIgnoreCase("AST / SGOT Test")) 
+            return 300;   
+        else if(testName.equalsIgnoreCase("ALT / SGPT Test")) 
+            return 300;
+        else if(testName.equalsIgnoreCase("Sodium Test")) 
+            return 325;       
+        else if(testName.equalsIgnoreCase("Potassium Test")) 
+            return 325;
+        else if(testName.equalsIgnoreCase("Chloride Test")) 
+            return 325;
+        else if(testName.equalsIgnoreCase("Total Calcium Test")) 
+            return 350;
+        else if(testName.equalsIgnoreCase("Ionized Calcium Test")) 
+            return 600;
+
+        else return 0.0;
     }
 
         private static P_PATIENTniRey FINDPATIENTBYID(String ID){

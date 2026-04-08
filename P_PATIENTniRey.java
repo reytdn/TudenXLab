@@ -35,12 +35,4 @@ public class P_PATIENTniRey {
     public void ADDTEST(P_LABTESTniRey Test){
         Tests.add(Test);
     }
-
-    public void PROCESSTESTS(){
-        System.out.println("Patient: " + Name + " (ID: " + PatientID + ")");
-        if(Tests.isEmpty()){
-            System.out.println("NO RECORDED TESTS");
-            return;
-        }
-    }
 }
