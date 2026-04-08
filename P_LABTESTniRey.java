@@ -5,7 +5,6 @@ public abstract class P_LABTESTniRey {
     protected double InputValue;
     protected String Unit;
     protected LocalDateTime TakenAt;
-    protected LocalDateTime ResultAt;
 
     public P_LABTESTniRey(String testName, double inputValue, String unit) {
         this.TestName = testName;
@@ -13,17 +12,13 @@ public abstract class P_LABTESTniRey {
         this.Unit = unit;
 
         this.TakenAt = LocalDateTime.now();
-        this.ResultAt = this.TakenAt.plusSeconds(10);
     }
 
-    public LocalDateTime getTakenAt() {
+    public LocalDateTime GETTAKENAT() {
         return TakenAt;
-    }
-
-    public LocalDateTime getResultAt() {
-        return ResultAt;
     }
 
     public abstract String EVALUATERESULT();
     public abstract String CONVERTTOSI();
+
 }

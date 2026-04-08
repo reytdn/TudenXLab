@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class TudenxLabApplication {
@@ -97,18 +99,21 @@ public class TudenxLabApplication {
         System.out.println();
         System.out.println("Processing results... please wait 10 seconds.");
         try {
-            Thread.sleep(10000);
+            Thread.sleep(10000); 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println();
-        System.out.println("=========================================================================");
-        System.out.println("=== RESULTS FOR PATIENT: " + P.GETNAME() + " (ID: " + P.GETPATIENTID() + ") ===");
-        System.out.println("=========================================================================");
+
+        LocalDateTime ResultAt = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd | HH:mm");
+
+        System.out.println("============================================================================================================");
+        System.out.println("RESULTS FOR PATIENT: " + P.GETNAME() + " (ID: " + P.GETPATIENTID() + ")");
+
         Map<String, List<String>> GROUPEDRESULTS = new HashMap<>();
 
         for(P_LABTESTniRey Test : P.GETTESTS()){
-            String Category = "";
+            String Category;
             if(Test instanceof S_CLINICALMICROSCOPYniRey)
                 Category = "MICROSCOPY";
             else if(Test instanceof S_MICROBIOLOGYniRey)
@@ -116,28 +121,32 @@ public class TudenxLabApplication {
             else if(Test instanceof S_MOLECULARPCRniRey)
                 Category = "MOLECULAR";
             else if(Test instanceof S_CLINICALCHEMISTRYniRey)
-                Category = "CLINICAL CHEMISTRY";
+                Category = "Clinical Chemistry";
+            else
+                Category = "OTHER"; 
 
             GROUPEDRESULTS.putIfAbsent(Category, new ArrayList<>());
-            GROUPEDRESULTS.get(Category).add(
+
+            GROUPEDRESULTS.get(Category).add( 
                 Test.TestName + " -> " + Test.EVALUATERESULT() +
                 " | " + Test.InputValue + " " + Test.Unit +
-                (Test.CONVERTTOSI().isEmpty() ? "" : " | " + Test.CONVERTTOSI())
+                (Test.CONVERTTOSI().isEmpty() ? "" : " | " + Test.CONVERTTOSI()) +
+                " | Taken: " + Test.GETTAKENAT().format(formatter) +
+                " | Result Ready: " + ResultAt.format(formatter)
             );
         }
 
-
         for (Map.Entry<String, List<String>> entry : GROUPEDRESULTS.entrySet()) {
-            System.out.println("=========================================================================");
+            System.out.println("============================================================================================================");
             System.out.println("===" + entry.getKey() + "===");
-            System.out.println("-------------------------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------------------------------------------");
             for (String result : entry.getValue()) {
                 System.out.println(result);
             }
         }
-        System.out.println("=========================================================================");
+        System.out.println("============================================================================================================");
     }
-    
+
         private static P_PATIENTniRey FINDPATIENTBYID(String ID){
             for(P_PATIENTniRey P : Patients){
                 if(P.GETPATIENTID().equals(ID))
@@ -171,7 +180,8 @@ public class TudenxLabApplication {
                 int Choice = Input.nextInt();
                 Input.nextLine();
 
-                if(Choice == 1) CLINICALMICROSCOPYMENU(P);
+                if(Choice == 1) 
+                    CLINICALMICROSCOPYMENU(P);
                 else if(Choice == 2) 
                     MICROBIOLOGYMENU(P);
                 else if(Choice == 3) 
@@ -342,97 +352,97 @@ public class TudenxLabApplication {
                     System.out.println();
                     System.out.print("Enter FBS (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("FBS Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("FBS Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 2){
                     System.out.println();
                     System.out.print("Enter RBS (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("RBS Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("RBS Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 3){
                     System.out.println();
                     System.out.print("Enter Total Cholesterol (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Total Cholesterol", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Total Cholesterol", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 4){
                     System.out.println();
                     System.out.print("Enter HDL (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("HDL Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("HDL Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 5){
                     System.out.println();
                     System.out.print("Enter LDL (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("LDL Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("LDL Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 6){
                     System.out.println();
                     System.out.print("Enter Triglycerides (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Triglycerides Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Triglycerides Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 7){
                     System.out.println();
                     System.out.print("Enter Creatinine (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Creatinine Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Creatinine Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 8){
                     System.out.println();
                     System.out.print("Enter Uric Acid (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Uric Acid Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Uric Acid Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 9){
                     System.out.println();
                     System.out.print("Enter BUN (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("BUN Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("BUN Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 10){
                     System.out.println();
                     System.out.print("Enter AST (U/L): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("AST / SGOT Test", Value, "U/L"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("AST / SGOT Test", Value, "U/L", P.GETGENDER()));
 
                 } else if(Choice == 11){
                     System.out.println();
                     System.out.print("Enter ALT (U/L): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("ALT / SGPT Test", Value, "U/L"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("ALT / SGPT Test", Value, "U/L", P.GETGENDER()));
 
                 } else if(Choice == 12){
                     System.out.println();
                     System.out.print("Enter Sodium (mEq/L): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Sodium Test", Value, "mEq/L"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Sodium Test", Value, "mEq/L", P.GETGENDER()));
 
                 } else if(Choice == 13){
                     System.out.println();
                     System.out.print("Enter Potassium (mEq/L): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Potassium Test", Value, "mEq/L"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Potassium Test", Value, "mEq/L", P.GETGENDER()));
 
                 } else if(Choice == 14){
                     System.out.println();
                     System.out.print("Enter Chloride (mEq/L): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Chloride Test", Value, "mEq/L"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Chloride Test", Value, "mEq/L", P.GETGENDER()));
 
                 } else if(Choice == 15){
                     System.out.println();
                     System.out.print("Enter Total Calcium (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Total Calcium Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Total Calcium Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 16){
                     System.out.println();
                     System.out.print("Enter Ionized Calcium (mg/dL): ");
                     double Value = Input.nextDouble();
-                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Ionized Calcium Test", Value, "mg/dL"));
+                    P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Ionized Calcium Test", Value, "mg/dL", P.GETGENDER()));
 
                 } else if(Choice == 17){
                     Run = false;
