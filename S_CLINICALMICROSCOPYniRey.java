@@ -18,4 +18,19 @@ public class S_CLINICALMICROSCOPYniRey extends P_LABTESTniRey{
     public String CONVERTTOSI(){
         return "";
     }
+
+    @Override
+    public double GETCOST(){
+        if(TestName.equalsIgnoreCase("Urinalysis - Protein")) 
+            return 200;
+        else if(TestName.equalsIgnoreCase("Fat Test")) 
+            return 600;
+        else if(TestName.equalsIgnoreCase("Pregnancy Test")) 
+            return 250;
+        else if(TestName.equalsIgnoreCase("Urinalysis - Blood")) 
+            return 200;
+        else 
+            return 0.0;
+    }
+
 }

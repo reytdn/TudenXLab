@@ -21,4 +21,5 @@ public abstract class P_LABTESTniRey {
     public abstract String EVALUATERESULT();
     public abstract String CONVERTTOSI();
 
+    public abstract double GETCOST();
 }

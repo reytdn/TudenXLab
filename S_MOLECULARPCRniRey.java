@@ -20,4 +20,18 @@ public class S_MOLECULARPCRniRey extends P_LABTESTniRey{
         return "";
     }
     
+    @Override
+    public double GETCOST(){
+        if(TestName.equalsIgnoreCase("Urine Culture")) 
+            return 900;
+        else if(TestName.equalsIgnoreCase("Sputum Culture")) 
+            return 1000;
+        else if(TestName.equalsIgnoreCase("Throat Swab Culture")) 
+            return 950;
+        else if(TestName.equalsIgnoreCase("Wound Culture")) 
+            return 1150;
+        else 
+            return 0.0;
+    }
+
 }

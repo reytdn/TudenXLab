@@ -147,4 +147,42 @@ public class S_CLINICALCHEMISTRYniRey extends P_LABTESTniRey {
         }
         return "";
     }
+
+    @Override
+    public double GETCOST(){
+        if(TestName.equalsIgnoreCase("FBS Test")) 
+            return 180;
+        else if(TestName.equalsIgnoreCase("RBS Test")) 
+            return 180;
+        else if(TestName.equalsIgnoreCase("Total Cholesterol")) 
+            return 300;
+        else if(TestName.equalsIgnoreCase("HDL Test")) 
+            return 350;
+        else if(TestName.equalsIgnoreCase("LDL Test")) 
+            return 350;
+        else if(TestName.equalsIgnoreCase("Triglycerides Test")) 
+            return 300;
+        else if(TestName.equalsIgnoreCase("Creatinine Test")) 
+            return 200;
+        else if(TestName.equalsIgnoreCase("Uric Acid Test")) 
+            return 200;
+        else if(TestName.equalsIgnoreCase("BUN Test")) 
+            return 200;
+        else if(TestName.equalsIgnoreCase("AST / SGOT Test")) 
+            return 300;
+        else if(TestName.equalsIgnoreCase("ALT / SGPT Test")) 
+            return 300;
+        else if(TestName.equalsIgnoreCase("Sodium Test")) 
+            return 325;
+        else if(TestName.equalsIgnoreCase("Potassium Test")) 
+            return 325;
+        else if(TestName.equalsIgnoreCase("Chloride Test")) 
+            return 325;
+        else if(TestName.equalsIgnoreCase("Total Calcium Test")) 
+            return 350;
+        else if(TestName.equalsIgnoreCase("Ionized Calcium Test")) 
+            return 600;
+        else 
+            return 0.0;
+    }
 }
