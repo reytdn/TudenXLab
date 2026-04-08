@@ -49,6 +49,8 @@ public class TudenxLabApplication {
                 PROCESSRESULTS();
             else if(Choice == 5)
                 Run = false;
+            else
+                continue;
         }
         Input.close();
     }
@@ -89,42 +91,53 @@ public class TudenxLabApplication {
         P_PATIENTniRey P = FINDPATIENTBYID(ID);
 
         if(P == null){
-            System.out.println();
             System.out.println("PATIENT NOT FOUND");
-            return; 
+            return;
         }
-
         System.out.println();
-        System.out.println("RESULTS FOR PATIENT: " + P.GETNAME() + " (ID: " + P.GETPATIENTID() + ") ===");
-
+        System.out.println("Processing results... please wait 10 seconds.");
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println();
+        System.out.println("=========================================================================");
+        System.out.println("=== RESULTS FOR PATIENT: " + P.GETNAME() + " (ID: " + P.GETPATIENTID() + ") ===");
+        System.out.println("=========================================================================");
         Map<String, List<String>> GROUPEDRESULTS = new HashMap<>();
 
         for(P_LABTESTniRey Test : P.GETTESTS()){
             String Category = "";
             if(Test instanceof S_CLINICALMICROSCOPYniRey)
-                Category = "CLINICAL MICROSCOPY TEST";
+                Category = "MICROSCOPY";
             else if(Test instanceof S_MICROBIOLOGYniRey)
-                Category = "MICROBIOLOGY TEST";
+                Category = "MICROBIOLOGY";
             else if(Test instanceof S_MOLECULARPCRniRey)
-                Category = "MOLECULAR PCR TEST";
+                Category = "MOLECULAR";
             else if(Test instanceof S_CLINICALCHEMISTRYniRey)
-                Category = "CLINICAL CHEMISTRY TEST";
+                Category = "CLINICAL CHEMISTRY";
 
             GROUPEDRESULTS.putIfAbsent(Category, new ArrayList<>());
             GROUPEDRESULTS.get(Category).add(
-                Test.TestName + " → " + Test.EVALUATERESULT() +
+                Test.TestName + " -> " + Test.EVALUATERESULT() +
                 " | " + Test.InputValue + " " + Test.Unit +
                 (Test.CONVERTTOSI().isEmpty() ? "" : " | " + Test.CONVERTTOSI())
             );
         }
 
-        for(Map.Entry<String, List<String>> entry : GROUPEDRESULTS.entrySet()){
-            System.out.println(entry.getKey());   
-            for(String result : entry.getValue()){
-                System.out.println(result);      
+
+        for (Map.Entry<String, List<String>> entry : GROUPEDRESULTS.entrySet()) {
+            System.out.println("=========================================================================");
+            System.out.println("===" + entry.getKey() + "===");
+            System.out.println("-------------------------------------------------------------------------");
+            for (String result : entry.getValue()) {
+                System.out.println(result);
             }
         }
-    }  
+        System.out.println("=========================================================================");
+    }
+    
         private static P_PATIENTniRey FINDPATIENTBYID(String ID){
             for(P_PATIENTniRey P : Patients){
                 if(P.GETPATIENTID().equals(ID))
@@ -135,7 +148,7 @@ public class TudenxLabApplication {
 
         private static void LABORATORYMENU(){
             System.out.println();
-            System.out.println("Enter Patient ID: ");
+            System.out.print("Enter Patient ID: ");
             String ID = Input.nextLine();
             P_PATIENTniRey P = FINDPATIENTBYID(ID);
 
@@ -150,7 +163,7 @@ public class TudenxLabApplication {
                 System.out.println("    === LABORATORY MENU ===");
                 System.out.println("    1. Clinical Microscopy");
                 System.out.println("    2. Microbiology");
-                System.out.println("    3 Molecular / PCR");
+                System.out.println("    3. Molecular / PCR");
                 System.out.println("    4. Clinical Chemistry");
                 System.out.println("    5. Back to Main Menu");
                 System.out.println();
@@ -168,8 +181,7 @@ public class TudenxLabApplication {
                 else if(Choice == 5) 
                     Run = false;
                 else 
-                    System.out.println();
-                    System.out.println("INVALID CHOICE.");
+                    continue;
             }
         }
 
@@ -190,28 +202,34 @@ public class TudenxLabApplication {
                 Input.nextLine();
 
                 if(Choice == 1){
+                    System.out.println();
                     System.out.print("Enter Protein (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALMICROSCOPYniRey("Urinalysis - Protein", Value, "mg/dL"));
 
                 } else if(Choice == 2){
+                    System.out.println();
                     System.out.print("Enter Fat %: ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALMICROSCOPYniRey("Fat Test", Value, "%"));
 
                 } else if(Choice == 3 && P.GETGENDER().equalsIgnoreCase("F")){
+                    System.out.println();
                     System.out.print("Enter hCG (mIU/mL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALMICROSCOPYniRey("Pregnancy Test", Value, "mIU/mL"));
 
                 } else if(Choice == 4){
+                    System.out.println();
                     System.out.print("Enter RBC/HPF: ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALMICROSCOPYniRey("Urinalysis - Blood", Value, "RBC/HPF"));
 
                 } else if(Choice == 5){
                     Run = false;
-                }
+
+                }else 
+                    continue;
             }
         }
 
@@ -231,6 +249,7 @@ public class TudenxLabApplication {
                 Input.nextLine();
 
                 if(Choice >= 1 && Choice <= 4){
+                    System.out.println();
                     System.out.print("Enter CFU/mL: ");
                     double Value = Input.nextDouble();
                     String TestName = (Choice == 1) ? "Urine Culture" :
@@ -240,7 +259,9 @@ public class TudenxLabApplication {
 
                 } else if(Choice == 5){
                     Run = false;
-                }
+
+                }else 
+                    continue;
             }
         }
 
@@ -260,28 +281,34 @@ public class TudenxLabApplication {
                 Input.nextLine();
 
                 if(Choice == 1){
+                    System.out.println();
                     System.out.print("Enter Ct Value: ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_MOLECULARPCRniRey("COVID-19 RT-PCR", Value, "Ct"));
 
                 } else if(Choice == 2){
+                    System.out.println();
                     System.out.print("Enter HIV Viral Load (copies/mL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_MOLECULARPCRniRey("HIV Viral Load", Value, "copies/mL"));
 
                 } else if(Choice == 3){
+                    System.out.println();
                     System.out.print("Enter Hepatitis B DNA (IU/mL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_MOLECULARPCRniRey("Hepatitis B DNA", Value, "IU/mL"));
 
                 } else if(Choice == 4){
+                    System.out.println();
                     System.out.print("Enter HPV DNA (copies/mL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_MOLECULARPCRniRey("HPV DNA", Value, "copies/mL"));
 
                 } else if(Choice == 5){
                     Run = false;
-                }
+
+                }else
+                    continue;
             }
         }
 
@@ -312,81 +339,97 @@ public class TudenxLabApplication {
                 Input.nextLine();
 
                 if(Choice == 1){
+                    System.out.println();
                     System.out.print("Enter FBS (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("FBS Test", Value, "mg/dL"));
 
                 } else if(Choice == 2){
+                    System.out.println();
                     System.out.print("Enter RBS (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("RBS Test", Value, "mg/dL"));
 
                 } else if(Choice == 3){
+                    System.out.println();
                     System.out.print("Enter Total Cholesterol (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Total Cholesterol", Value, "mg/dL"));
 
                 } else if(Choice == 4){
+                    System.out.println();
                     System.out.print("Enter HDL (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("HDL Test", Value, "mg/dL"));
 
                 } else if(Choice == 5){
+                    System.out.println();
                     System.out.print("Enter LDL (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("LDL Test", Value, "mg/dL"));
 
                 } else if(Choice == 6){
+                    System.out.println();
                     System.out.print("Enter Triglycerides (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Triglycerides Test", Value, "mg/dL"));
 
                 } else if(Choice == 7){
+                    System.out.println();
                     System.out.print("Enter Creatinine (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Creatinine Test", Value, "mg/dL"));
 
                 } else if(Choice == 8){
+                    System.out.println();
                     System.out.print("Enter Uric Acid (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Uric Acid Test", Value, "mg/dL"));
 
                 } else if(Choice == 9){
+                    System.out.println();
                     System.out.print("Enter BUN (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("BUN Test", Value, "mg/dL"));
 
                 } else if(Choice == 10){
+                    System.out.println();
                     System.out.print("Enter AST (U/L): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("AST / SGOT Test", Value, "U/L"));
 
                 } else if(Choice == 11){
+                    System.out.println();
                     System.out.print("Enter ALT (U/L): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("ALT / SGPT Test", Value, "U/L"));
 
                 } else if(Choice == 12){
+                    System.out.println();
                     System.out.print("Enter Sodium (mEq/L): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Sodium Test", Value, "mEq/L"));
 
                 } else if(Choice == 13){
+                    System.out.println();
                     System.out.print("Enter Potassium (mEq/L): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Potassium Test", Value, "mEq/L"));
 
                 } else if(Choice == 14){
+                    System.out.println();
                     System.out.print("Enter Chloride (mEq/L): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Chloride Test", Value, "mEq/L"));
 
                 } else if(Choice == 15){
+                    System.out.println();
                     System.out.print("Enter Total Calcium (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Total Calcium Test", Value, "mg/dL"));
 
                 } else if(Choice == 16){
+                    System.out.println();
                     System.out.print("Enter Ionized Calcium (mg/dL): ");
                     double Value = Input.nextDouble();
                     P.ADDTEST(new S_CLINICALCHEMISTRYniRey("Ionized Calcium Test", Value, "mg/dL"));
@@ -394,7 +437,8 @@ public class TudenxLabApplication {
                 } else if(Choice == 17){
                     Run = false;
                 
-                }
+                }else
+                    continue;
             }
         }
     }

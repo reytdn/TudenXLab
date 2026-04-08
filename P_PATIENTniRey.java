@@ -42,8 +42,5 @@ public class P_PATIENTniRey {
             System.out.println("NO RECORDED TESTS");
             return;
         }
-        for(P_LABTESTniRey Test : Tests){
-            Test.DISPLAYRESULT();
-        }
     }
 }
