@@ -29,7 +29,7 @@ public class P_PATIENTniRey {
     public String GETGENDER(){
         return Gender;
     }
-    public List<P_LABTESTniRey> GETTEST(){
+    public List<P_LABTESTniRey> GETTESTS(){
         return Tests;
     }
     public void ADDTEST(P_LABTESTniRey Test){

@@ -1,5 +1,3 @@
-import javax.print.DocFlavor.READER;
-
 public class S_CLINICALCHEMISTRYniRey extends P_LABTESTniRey{
     private String Gender;
 
