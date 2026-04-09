@@ -143,7 +143,9 @@ public class TudenxLabApplication {
 
         for (Map.Entry<String, List<String>> entry : GROUPEDRESULTS.entrySet()) {
             System.out.println("============================================================================================================");
-            System.out.println("===" + entry.getKey() + "===");
+            System.out.println("                                                   ===" 
+                   + entry.getKey() + 
+                   "===                                                   ");
             System.out.println("------------------------------------------------------------------------------------------------------------");
             for (String result : entry.getValue()) {
                 System.out.println(result);

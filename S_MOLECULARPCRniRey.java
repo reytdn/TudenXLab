@@ -22,16 +22,17 @@ public class S_MOLECULARPCRniRey extends P_LABTESTniRey{
     
     @Override
     public double GETCOST(){
-        if(TestName.equalsIgnoreCase("Urine Culture")) 
-            return 900;
-        else if(TestName.equalsIgnoreCase("Sputum Culture")) 
-            return 1000;
-        else if(TestName.equalsIgnoreCase("Throat Swab Culture")) 
-            return 950;
-        else if(TestName.equalsIgnoreCase("Wound Culture")) 
-            return 1150;
+        if(TestName.equalsIgnoreCase("COVID-19 RT-PCR")) 
+            return 2500.0;
+        else if(TestName.equalsIgnoreCase("HIV Viral Load")) 
+            return 6000.0;
+        else if(TestName.equalsIgnoreCase("Hepatitis B DNA")) 
+            return 5000.0;
+        else if(TestName.equalsIgnoreCase("HPV DNA")) 
+            return 4500.0;
         else 
             return 0.0;
     }
+    
 
 }

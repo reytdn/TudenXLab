@@ -15,14 +15,14 @@ public class S_MICROBIOLOGYniRey extends P_LABTESTniRey{
 
     @Override
     public double GETCOST(){
-        if(TestName.equalsIgnoreCase("COVID-19 RT-PCR")) 
-            return 2500;
-        else if(TestName.equalsIgnoreCase("HIV Viral Load")) 
-            return 6000;
-        else if(TestName.equalsIgnoreCase("Hepatitis B DNA")) 
-            return 5000;
-        else if(TestName.equalsIgnoreCase("HPV DNA")) 
-            return 4500;
+        if(TestName.equalsIgnoreCase("Urine Culture")) 
+            return 900.0;
+        else if(TestName.equalsIgnoreCase("Sputum Culture")) 
+            return 1000.0;
+        else if(TestName.equalsIgnoreCase("Throat Swab Culture")) 
+            return 950.0;
+        else if(TestName.equalsIgnoreCase("Wound Culture")) 
+            return 1150.0;
         else 
             return 0.0;
     }
