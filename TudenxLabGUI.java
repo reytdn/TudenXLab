@@ -16,98 +16,137 @@ public class TudenxLabGUI extends JFrame {
     private JCheckBox femaleCheckBox;
     private JCheckBox pregnancyCheckBox;
 
-
     public TudenxLabGUI() {
-
-
+        // Window title bar (plain text)
         setTitle("TudenXLab");
         setSize(1920, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(50,50));
 
+        // === Header with styled text ===
+        add(buildHeader(), BorderLayout.NORTH);
 
+        // Smaller input boxes
         nameField = new JTextField();
-        nameField.setPreferredSize(new Dimension(120, 25));
+        nameField.setMaximumSize(new Dimension(200, 25));
 
         ageField = new JTextField();
-        ageField.setPreferredSize(new Dimension(60, 25));
+        ageField.setMaximumSize(new Dimension(100, 25));
 
         maleCheckBox = new JCheckBox("M");
         femaleCheckBox = new JCheckBox("F");
         pregnancyCheckBox = new JCheckBox("Pregnant");
 
-
+        // === Patient List Panel ===
         JPanel patientPanel = new JPanel(new BorderLayout());
+        patientPanel.setBackground(Color.CYAN);
         JLabel patientLabel = new JLabel("=== CURRENT PATIENTS ===", JLabel.CENTER);
-        patientLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        patientLabel.setFont(new Font("Arial Black", Font.BOLD, 22));
+        patientLabel.setForeground(Color.RED);
         patientPanel.add(patientLabel, BorderLayout.NORTH);
         patientList.setFont(new Font("Arial", Font.PLAIN, 16));
         patientPanel.add(new JScrollPane(patientList), BorderLayout.CENTER);
 
         patientList.addListSelectionListener(e -> {
-        if (!e.getValueIsAdjusting()) {
-            String selected = patientList.getSelectedValue();
-            if (selected != null && selected.contains("|")) {
-                String id = selected.split("\\|")[0].trim();
-                P_PATIENTniRey p = patients.get(id);
+            if (!e.getValueIsAdjusting()) {
+                String selected = patientList.getSelectedValue();
+                if (selected != null && selected.contains("|")) {
+                    String id = selected.split("\\|")[0].trim();
+                    P_PATIENTniRey p = patients.get(id);
 
-                if (p != null && pregnancyCheckBox != null) {
-                    JTextField pregField = null;
-                    for (Object[] row : testControls) {
-                        if (row[2].equals("Pregnancy Test")) {
-                            pregField = (JTextField) row[1];
-                            break;
+                    if (p != null && pregnancyCheckBox != null) {
+                        JTextField pregField = null;
+                        for (Object[] row : testControls) {
+                            if (row[2].equals("Pregnancy Test")) {
+                                pregField = (JTextField) row[1];
+                                break;
+                            }
                         }
-                    }
 
-                    if (p.GETGENDER().equalsIgnoreCase("M")) {
-                        pregnancyCheckBox.setEnabled(false);
-                        if (pregField != null) pregField.setEnabled(false);
-                    } else {
-                        pregnancyCheckBox.setEnabled(true);
-                        if (pregField != null) pregField.setEnabled(true);
+                        if (p.GETGENDER().equalsIgnoreCase("M")) {
+                            pregnancyCheckBox.setEnabled(false);
+                            if (pregField != null) pregField.setEnabled(false);
+                        } else {
+                            pregnancyCheckBox.setEnabled(true);
+                            if (pregField != null) pregField.setEnabled(true);
+                        }
                     }
                 }
             }
-        }
-    });
+        });
 
-        // === Right: Add Patient ===
-        JPanel inputPanel = new JPanel(new GridLayout(5,2,10,10));
+        // === Add Patients Panel (stacked form style) ===
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        inputPanel.setBackground(Color.CYAN);
+
         JLabel addLabel = new JLabel("ADD PATIENTS HERE!", JLabel.CENTER);
-        addLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        addLabel.setFont(new Font("Arial Black", Font.BOLD, 22));
+        addLabel.setForeground(Color.RED);
+        addLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         inputPanel.add(addLabel);
-        inputPanel.add(new JLabel(""));
-        inputPanel.add(new JLabel("Patient's Name:"));
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        JLabel nameLabel = new JLabel("Patient's Name:");
+        nameLabel.setForeground(Color.RED);
+        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        inputPanel.add(nameLabel);
+
         inputPanel.add(nameField);
-        inputPanel.add(new JLabel("Patient's Age:"));
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        JLabel ageLabel = new JLabel("Patient's Age:");
+        ageLabel.setForeground(Color.RED);
+        ageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        inputPanel.add(ageLabel);
+
         inputPanel.add(ageField);
-        inputPanel.add(new JLabel("Patient's Gender:"));
-        JPanel genderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        JLabel genderLabel = new JLabel("Patient's Gender (M/F):");
+        genderLabel.setForeground(Color.RED);
+        genderLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        inputPanel.add(genderLabel);
+
+        JPanel genderPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        genderPanel.setBackground(Color.CYAN);
+        maleCheckBox.setForeground(Color.RED);
+        femaleCheckBox.setForeground(Color.RED);
         genderPanel.add(maleCheckBox);
         genderPanel.add(femaleCheckBox);
         inputPanel.add(genderPanel);
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Ensure only one can be selected
         maleCheckBox.addActionListener(e -> {
             if (maleCheckBox.isSelected()) femaleCheckBox.setSelected(false);
         });
         femaleCheckBox.addActionListener(e -> {
             if (femaleCheckBox.isSelected()) maleCheckBox.setSelected(false);
         });
+
         JButton addBtn = new JButton("ADD PATIENT");
+        addBtn.setBackground(Color.CYAN);
+        addBtn.setForeground(Color.RED);
+        addBtn.setFont(new Font("Arial Black", Font.BOLD, 16));
+        addBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         inputPanel.add(addBtn);
 
-        // === Center: Laboratory Menu ===
+        addBtn.addActionListener(e -> addPatient());
+
+        // === Laboratory Menu Panel ===
         JPanel testPanel = new JPanel(new GridLayout(0,1,5,5));
+        testPanel.setBackground(Color.CYAN);
         JLabel labLabel = new JLabel("=== LABORATORY MENU ===", JLabel.CENTER);
-        labLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        labLabel.setFont(new Font("Arial Black", Font.BOLD, 22));
+        labLabel.setForeground(Color.RED);
         testPanel.add(labLabel);
 
         java.util.function.BiConsumer<String,String> addRow = (testName, unit) -> {
             JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            row.setBackground(Color.CYAN);
             JCheckBox cb = new JCheckBox(testName);
-            JTextField tf = new JTextField(8);
+            cb.setForeground(Color.RED);
+            JTextField tf = new JTextField(6); // smaller input box
             row.add(cb);
             row.add(new JLabel(unit));
             row.add(tf);
@@ -123,6 +162,7 @@ public class TudenxLabGUI extends JFrame {
             });
         };
 
+        // Add lab rows (unchanged logic)
         testPanel.add(new JLabel("CLINICAL CHEMISTRY LAB", JLabel.LEFT));
         addRow.accept("FBS Test", "mg/dL");
         addRow.accept("RBS Test", "mg/dL");
@@ -159,30 +199,62 @@ public class TudenxLabGUI extends JFrame {
         addRow.accept("Pregnancy Test", "mIU/mL");
         addRow.accept("Urinalysis - Blood", "RBC/uL");
 
-        JScrollPane scrollPane = new JScrollPane(testPanel);
+        // Tabs for Lab Sections
+        JTabbedPane labTabs = buildTabs(testPanel);
+        JScrollPane scrollPane = new JScrollPane(labTabs);
 
-
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 1, 10, 20));
-        JButton removeBtn = new JButton("REMOVE PATIENT");
-        JButton resultBtn = new JButton("PROCESS RESULT");
-        JButton billingBtn = new JButton("BILLING");
-        JButton exitBtn = new JButton("EXIT");
-        buttonPanel.add(removeBtn);
-        buttonPanel.add(resultBtn);
-        buttonPanel.add(billingBtn);
-        buttonPanel.add(exitBtn);
+        // Status Bar
+        JPanel buttonPanel = buildStatusBar();
 
         add(patientPanel, BorderLayout.WEST);
         add(inputPanel, BorderLayout.EAST);
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
+    }
 
-        // === Actions ===
-        addBtn.addActionListener(e -> addPatient());
+    // === Updated Header Method ===
+    private JPanel buildHeader() {
+        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel headerLabel = new JLabel(
+            "<html><span style='color:blue'>Tuden</span><span style='color:green'>X</span><span style='color:red'>Lab</span></html>",
+            JLabel.CENTER
+        );
+        // Arial Black font, bold, large size
+        headerLabel.setFont(new Font("Arial Black", Font.BOLD, 64));
+        headerPanel.add(headerLabel);
+        return headerPanel;
+    }
+    private JTabbedPane buildTabs(JPanel testPanel) {
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setFont(new Font("Arial", Font.BOLD, 16));
+        tabbedPane.addTab("Laboratory Tests", new JScrollPane(testPanel));
+        return tabbedPane;
+    }
+
+    private JPanel buildStatusBar() {
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
+        JButton removeBtn = new JButton("REMOVE PATIENT");
+        JButton resultBtn = new JButton("PROCESS RESULT");
+        JButton billingBtn = new JButton("BILLING");
+        JButton exitBtn = new JButton("EXIT");
+
+        removeBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        resultBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        billingBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        exitBtn.setFont(new Font("Arial", Font.BOLD, 14));
+
+        buttonPanel.add(removeBtn);
+        buttonPanel.add(resultBtn);
+        buttonPanel.add(billingBtn);
+        buttonPanel.add(exitBtn);
+
         removeBtn.addActionListener(e -> removePatient());
         resultBtn.addActionListener(e -> processResults());
         billingBtn.addActionListener(e -> showBilling());
         exitBtn.addActionListener(e -> System.exit(0));
+
+        return buttonPanel;
     }
 
     private void addPatient() {
@@ -215,18 +287,16 @@ public class TudenxLabGUI extends JFrame {
         if(p != null) {
             patientListModel.removeElement(patientId.trim() + " | " + p.GETNAME() + " | " + p.GETGENDER());
         } else {
-            JOptionPane.showMessageDialog(this, "NO PATIENT FOUND: " + patientId);
+            JOptionPane.showMessageDialog(this, "NO PATIENT FOUND WITH ID: " + patientId);
         }
     }
 
     private void resetInputsAndTests() {
-        // Clear patient input fields
         nameField.setText("");
         ageField.setText("");
         maleCheckBox.setSelected(false);
         femaleCheckBox.setSelected(false);
 
-        // Reset all test checkboxes and text fields
         for(Object[] row : testControls) {
             JCheckBox cb = (JCheckBox) row[0];
             JTextField tf = (JTextField) row[1];
@@ -235,7 +305,6 @@ public class TudenxLabGUI extends JFrame {
         }
     }
 
-        // Attach selected tests to patient
     private void assignTestsToPatient(P_PATIENTniRey p) {
         for(Object[] row : testControls) {
             JCheckBox cb = (JCheckBox) row[0];
@@ -247,8 +316,6 @@ public class TudenxLabGUI extends JFrame {
                 try {
                     double value = Double.parseDouble(tf.getText().trim());
                     P_LABTESTniRey test;
-
-                    // === Clinical Chemistry ===
                     if(testName.equalsIgnoreCase("FBS Test") ||
                     testName.equalsIgnoreCase("RBS Test") ||
                     testName.equalsIgnoreCase("Total Cholesterol") ||
@@ -267,21 +334,19 @@ public class TudenxLabGUI extends JFrame {
                     testName.equalsIgnoreCase("Ionized Calcium Test")) {
                         test = new S_CLINICALCHEMISTRYniRey(testName, value, unit, p.GETGENDER());
 
-                    // === Molecular / PCR ===
                     } else if(testName.equalsIgnoreCase("COVID-19 RT-PCR") ||
                             testName.equalsIgnoreCase("HIV Viral Load") ||
                             testName.equalsIgnoreCase("Hepatitis B DNA") ||
                             testName.equalsIgnoreCase("HPV DNA")) {
                         test = new S_MOLECULARPCRniRey(testName, value, unit);
 
-                    // === Microbiology ===
+
                     } else if(testName.equalsIgnoreCase("Urine Culture") ||
                             testName.equalsIgnoreCase("Sputum Culture") ||
                             testName.equalsIgnoreCase("Throat Swab Culture") ||
                             testName.equalsIgnoreCase("Wound Culture")) {
                         test = new S_MICROBIOLOGYniRey(testName, value, unit);
 
-                    // === Clinical Microscopy ===
                     } else if(testName.equalsIgnoreCase("Urinalysis - Protein") ||
                             testName.equalsIgnoreCase("Fat Test") ||
                             testName.equalsIgnoreCase("Pregnancy Test") ||
@@ -289,22 +354,20 @@ public class TudenxLabGUI extends JFrame {
                         test = new S_CLINICALMICROSCOPYniRey(testName, value, unit);
 
                     } else {
-                        // fallback
                         test = new S_CLINICALMICROSCOPYniRey(testName, value, unit);
                     }
 
-                    // === NEW LOGIC: override if test already exists ===
                     boolean replaced = false;
                     for (int i = 0; i < p.GETTESTS().size(); i++) {
                         P_LABTESTniRey existing = p.GETTESTS().get(i);
                         if (existing.TestName.equalsIgnoreCase(testName)) {
-                            p.GETTESTS().set(i, test); // replace
+                            p.GETTESTS().set(i, test); 
                             replaced = true;
                             break;
                         }
                     }
                     if (!replaced) {
-                        p.ADDTEST(test); // add new
+                        p.ADDTEST(test); 
                     }
 
                 } catch(NumberFormatException ex) {
@@ -329,7 +392,6 @@ public class TudenxLabGUI extends JFrame {
             return;
         }
 
-        // Save selected tests to patient before showing results
         assignTestsToPatient(p);
 
         Map<String, java.util.List<P_LABTESTniRey>> groupedTests = new LinkedHashMap<>();
@@ -394,7 +456,6 @@ public class TudenxLabGUI extends JFrame {
             return;
         }
 
-        // Save selected tests to patient before billing
         assignTestsToPatient(p);
 
         Map<String, java.util.List<P_LABTESTniRey>> groupedTests = new LinkedHashMap<>();
@@ -451,7 +512,6 @@ public class TudenxLabGUI extends JFrame {
         resetInputsAndTests();
     }
 
-    // === MAIN ENTRY POINT ===
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new TudenxLabGUI().setVisible(true);

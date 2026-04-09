@@ -3,7 +3,7 @@ public class S_CLINICALCHEMISTRYniRey extends P_LABTESTniRey {
 
     public S_CLINICALCHEMISTRYniRey(String TestName, double InputValue, String Unit, String Gender){
         super(TestName, InputValue, Unit);
-        this.Gender = Gender; // must be "M" or "F"
+        this.Gender = Gender; 
     }
 
     @Override
