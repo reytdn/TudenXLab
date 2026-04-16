@@ -15,18 +15,16 @@ public class TudenxLabGUI extends JFrame {
     private JCheckBox maleCheckBox;
     private JCheckBox femaleCheckBox;
     private JCheckBox pregnancyCheckBox;
+    private JCheckBox pwdCheckBox;
 
     public TudenxLabGUI() {
-        // Window title bar (plain text)
         setTitle("TudenXLab");
         setSize(1920, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(50,50));
 
-        // === Header with styled text ===
         add(buildHeader(), BorderLayout.NORTH);
 
-        // Smaller input boxes
         nameField = new JTextField();
         nameField.setMaximumSize(new Dimension(200, 25));
 
@@ -35,11 +33,10 @@ public class TudenxLabGUI extends JFrame {
 
         maleCheckBox = new JCheckBox("M");
         femaleCheckBox = new JCheckBox("F");
-        pregnancyCheckBox = new JCheckBox("Pregnant");
 
         // === Patient List Panel ===
         JPanel patientPanel = new JPanel(new BorderLayout());
-        patientPanel.setBackground(Color.CYAN);
+        patientPanel.setBackground(new Color(200, 230, 255));
         JLabel patientLabel = new JLabel("=== CURRENT PATIENTS ===", JLabel.CENTER);
         patientLabel.setFont(new Font("Arial Black", Font.BOLD, 22));
         patientLabel.setForeground(Color.RED);
@@ -78,7 +75,7 @@ public class TudenxLabGUI extends JFrame {
         // === Add Patients Panel (stacked form style) ===
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-        inputPanel.setBackground(Color.CYAN);
+        inputPanel.setBackground(new Color(200, 230, 255));
 
         JLabel addLabel = new JLabel("ADD PATIENTS HERE!", JLabel.CENTER);
         addLabel.setFont(new Font("Arial Black", Font.BOLD, 22));
@@ -88,7 +85,7 @@ public class TudenxLabGUI extends JFrame {
         inputPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
         JLabel nameLabel = new JLabel("Patient's Name:");
-        nameLabel.setForeground(Color.RED);
+        nameLabel.setForeground(Color.BLACK);
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         inputPanel.add(nameLabel);
 
@@ -96,7 +93,7 @@ public class TudenxLabGUI extends JFrame {
         inputPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         JLabel ageLabel = new JLabel("Patient's Age:");
-        ageLabel.setForeground(Color.RED);
+        ageLabel.setForeground(Color.BLACK);
         ageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         inputPanel.add(ageLabel);
 
@@ -104,14 +101,14 @@ public class TudenxLabGUI extends JFrame {
         inputPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         JLabel genderLabel = new JLabel("Patient's Gender (M/F):");
-        genderLabel.setForeground(Color.RED);
+        genderLabel.setForeground(Color.BLACK);
         genderLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         inputPanel.add(genderLabel);
 
         JPanel genderPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        genderPanel.setBackground(Color.CYAN);
-        maleCheckBox.setForeground(Color.RED);
-        femaleCheckBox.setForeground(Color.RED);
+        genderPanel.setBackground(new Color(200, 230, 255));
+        maleCheckBox.setForeground(Color.BLACK);
+        femaleCheckBox.setForeground(Color.BLACK);
         genderPanel.add(maleCheckBox);
         genderPanel.add(femaleCheckBox);
         inputPanel.add(genderPanel);
@@ -124,10 +121,29 @@ public class TudenxLabGUI extends JFrame {
             if (femaleCheckBox.isSelected()) maleCheckBox.setSelected(false);
         });
 
+        JPanel pwdPanel = new JPanel();
+        pwdPanel.setLayout(new BoxLayout(pwdPanel, BoxLayout.Y_AXIS));
+        pwdPanel.setBackground(new Color(200, 230, 255));
+
+        JLabel pwdLabel = new JLabel("Check if PWD:");
+        pwdLabel.setForeground(Color.BLACK);
+        pwdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        pwdCheckBox = new JCheckBox("PWD");
+        pwdCheckBox.setForeground(Color.BLACK);
+        pwdCheckBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        pwdPanel.add(pwdLabel);
+        pwdPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        pwdPanel.add(pwdCheckBox);
+
+        inputPanel.add(pwdPanel);
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+
         JButton addBtn = new JButton("ADD PATIENT");
-        addBtn.setBackground(Color.CYAN);
-        addBtn.setForeground(Color.RED);
-        addBtn.setFont(new Font("Arial Black", Font.BOLD, 16));
+        addBtn.setBackground(new Color(200, 230, 255));
+        addBtn.setForeground(new Color(34, 139, 34));
+        addBtn.setFont(new Font("Arial Black", Font.BOLD, 20));
         addBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         inputPanel.add(addBtn);
 
@@ -135,7 +151,7 @@ public class TudenxLabGUI extends JFrame {
 
         // === Laboratory Menu Panel ===
         JPanel testPanel = new JPanel(new GridLayout(0,1,5,5));
-        testPanel.setBackground(Color.CYAN);
+        testPanel.setBackground(new Color(200, 230, 255));
         JLabel labLabel = new JLabel("=== LABORATORY MENU ===", JLabel.CENTER);
         labLabel.setFont(new Font("Arial Black", Font.BOLD, 22));
         labLabel.setForeground(Color.RED);
@@ -143,9 +159,9 @@ public class TudenxLabGUI extends JFrame {
 
         java.util.function.BiConsumer<String,String> addRow = (testName, unit) -> {
             JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            row.setBackground(Color.CYAN);
+            row.setBackground(new Color(200, 230, 255));
             JCheckBox cb = new JCheckBox(testName);
-            cb.setForeground(Color.RED);
+            cb.setForeground(Color.BLACK);
             JTextField tf = new JTextField(6); // smaller input box
             row.add(cb);
             row.add(new JLabel(unit));
@@ -155,14 +171,25 @@ public class TudenxLabGUI extends JFrame {
             if(testName.equals("Pregnancy Test")) pregnancyCheckBox = cb;
 
             cb.addActionListener(e -> {
-                if(patientList.getSelectedValue() == null) {
-                    JOptionPane.showMessageDialog(this, "Select a patient first!");
-                    cb.setSelected(false);
-                }
-            });
-        };
+            if (patientList.getSelectedValue() == null) {
+                JOptionPane.showMessageDialog(this, "Select a patient first!");
+                cb.setSelected(false);
+                tf.setEnabled(false);
+                tf.setText("");
+                return;
+            }
 
-        // Add lab rows (unchanged logic)
+            if (cb.isSelected()) {
+                tf.setEnabled(true);
+            } else {
+                tf.setEnabled(false);
+                tf.setText("");
+            }
+        });
+
+        // Default state: disabled until checkbox is ticked AND patient is selected
+        tf.setEnabled(false);
+        }; // <-- CLOSE the addRow lambda here
         testPanel.add(new JLabel("CLINICAL CHEMISTRY LAB", JLabel.LEFT));
         addRow.accept("FBS Test", "mg/dL");
         addRow.accept("RBS Test", "mg/dL");
@@ -210,6 +237,8 @@ public class TudenxLabGUI extends JFrame {
         add(inputPanel, BorderLayout.EAST);
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
+
+        setupMutualExclusions();
     }
 
     // === Updated Header Method ===
@@ -261,6 +290,7 @@ public class TudenxLabGUI extends JFrame {
         String name = nameField.getText();
         String ageText = ageField.getText();
         String gender = maleCheckBox.isSelected() ? "M" : (femaleCheckBox.isSelected() ? "F" : "");
+        boolean isPWD = pwdCheckBox.isSelected(); // ✅ capture checkbox state
 
         if(name.isEmpty() || ageText.isEmpty() || gender.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill all fields.");
@@ -268,13 +298,65 @@ public class TudenxLabGUI extends JFrame {
         }
 
         int age = Integer.parseInt(ageText);
-        P_PATIENTniRey p = new P_PATIENTniRey(name, age, gender);
+        // ✅ Pass PWD flag into constructor
+        P_PATIENTniRey p = new P_PATIENTniRey(name, age, gender, isPWD);
+
         patients.put(p.GETPATIENTID(), p);
-        patientListModel.addElement(p.GETPATIENTID() + " | " + name + " | " + gender);
+        patientListModel.addElement(
+            p.GETPATIENTID() + " | " + name + " | " + gender + (isPWD ? " | PWD" : "")
+        );
 
         nameField.setText("");
         ageField.setText("");
-        gender = maleCheckBox.isSelected() ? "M" : (femaleCheckBox.isSelected() ? "F" : "");
+        maleCheckBox.setSelected(false);
+        femaleCheckBox.setSelected(false);
+        pwdCheckBox.setSelected(false);
+    }
+
+    private void setupMutualExclusions() {
+        addMutualExclusion("FBS Test", "RBS Test");
+        addMutualExclusion("RBS Test", "FBS Test");
+
+        // Urine Culture vs Urinalysis group
+        addMutualExclusion("Urine Culture", "Urinalysis - Protein");
+        addMutualExclusion("Urine Culture", "Urinalysis - Blood");
+        addMutualExclusion("Urine Culture", "Pregnancy Test");
+
+        addMutualExclusion("Pregnancy Test", "Urine Culture");
+        addMutualExclusion("Pregnancy Test", "Urinalysis - Protein");
+        addMutualExclusion("Pregnancy Test", "Urinalysis - Blood");
+
+        addMutualExclusion("Urinalysis - Blood", "Pregnancy Test");
+        addMutualExclusion("Urinalysis - Blood", "Urine Culture");
+        addMutualExclusion("Urinalysis - Blood", "Urinalysis - Protein");
+
+        addMutualExclusion("Urinalysis - Protein", "Urinalysis - Blood");
+        addMutualExclusion("Urinalysis - Protein", "Pregnancy Test");
+        addMutualExclusion("Urinalysis - Protein", "Urine Culture");
+
+    }
+    // === Helper Method ===
+    private void addMutualExclusion(String testA, String testB) {
+        for (Object[] row : testControls) {
+            if (row[2].equals(testA)) {
+                JCheckBox cbA = (JCheckBox) row[0];
+                cbA.addActionListener(e -> {
+                    for (Object[] row2 : testControls) {
+                        if (row2[2].equals(testB)) {
+                            JCheckBox cbB = (JCheckBox) row2[0];
+                            JTextField tfB = (JTextField) row2[1];
+                            if (cbA.isSelected()) {
+                                cbB.setEnabled(false);
+                                tfB.setEnabled(false);
+                                tfB.setText("");
+                            } else {
+                                cbB.setEnabled(true);
+                            }
+                        }
+                    }
+                });
+            }
+        }
     }
 
     private void removePatient() {
@@ -481,19 +563,27 @@ public class TudenxLabGUI extends JFrame {
         receiptText.append("              TudenXLab Receipt              \n");
         receiptText.append("============================================\n");
         receiptText.append("Patient: ").append(p.GETNAME())
-                   .append(" (ID: ").append(p.GETPATIENTID()).append(")\n\n");
+                .append(" (ID: ").append(p.GETPATIENTID()).append(")\n\n");
 
         for(Map.Entry<String, java.util.List<P_LABTESTniRey>> entry : groupedTests.entrySet()) {
             double categoryTotal = entry.getValue().stream().mapToDouble(P_LABTESTniRey::GETCOST).sum();
             receiptText.append("== ").append(entry.getKey()).append(" ==\n");
             for(P_LABTESTniRey test : entry.getValue()) {
                 receiptText.append("   - ").append(test.TestName)
-                           .append(" : PhP ").append(String.format("%.2f", test.GETCOST()))
-                           .append("\n");
+                        .append(" : PhP ").append(String.format("%.2f", test.GETCOST()))
+                        .append("\n");
             }
             receiptText.append("Subtotal: PhP ").append(String.format("%.2f", categoryTotal)).append("\n\n");
         }
 
+        receiptText.append("RAW TOTAL: " + totalCost + "\n");
+
+        // ✅ Apply PWD discount if applicable
+        if (p.isPWD()) {
+            double discount = totalCost * 0.20; // 20% discount
+            totalCost -= discount;
+            receiptText.append("PWD Discount (20%): -PhP ").append(String.format("%.2f", discount)).append("\n");
+        }
         receiptText.append("--------------------------------------------\n");
         receiptText.append("GRAND TOTAL: PhP ").append(String.format("%.2f", totalCost)).append("\n");
         receiptText.append("Date: ").append(resultAt.format(formatter)).append("\n");

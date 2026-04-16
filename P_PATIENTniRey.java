@@ -7,14 +7,16 @@ public class P_PATIENTniRey {
     private int Age;
     private String Gender;
     private List<P_LABTESTniRey> Tests;
+    private boolean PWD;
 
-    public P_PATIENTniRey(String Name, int Age, String Gender){
+    public P_PATIENTniRey(String Name, int Age, String Gender, boolean PWD){
         ID = ID + 1;
         this.PatientID = String.valueOf(ID);
         this.Name = Name;
         this.Age = Age;
         this.Gender = Gender;
         this.Tests = new ArrayList<>();
+        this.PWD = PWD;
     }
 
     public String GETPATIENTID(){
@@ -28,6 +30,9 @@ public class P_PATIENTniRey {
     }
     public String GETGENDER(){
         return Gender;
+    }
+    public boolean isPWD() {
+    return PWD;
     }
     public List<P_LABTESTniRey> GETTESTS(){
         return Tests;

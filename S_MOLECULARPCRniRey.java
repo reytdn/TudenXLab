@@ -33,6 +33,4 @@ public class S_MOLECULARPCRniRey extends P_LABTESTniRey{
         else 
             return 0.0;
     }
-    
-
 }
